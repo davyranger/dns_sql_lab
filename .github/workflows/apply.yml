@@ -5,6 +5,10 @@ on:
     branches:
       - main   
 
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: false
+
 # Special permissions required for OIDC authentication
 permissions:
   id-token: write
@@ -71,4 +75,5 @@ jobs:
         if: env.result == 'true'
         run: terraform apply -auto-approve
         working-directory: ./infra/parent_directory/
+
       

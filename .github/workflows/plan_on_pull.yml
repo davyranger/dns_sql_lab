@@ -6,6 +6,10 @@ on:
   pull_request:
     branches:
       - main
+
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: false
       
 # Special permissions required for OIDC authentication
 # configure github actions - https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings

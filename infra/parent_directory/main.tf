@@ -33,4 +33,3 @@ provider "azurerm" {
   resource_provider_registrations = "none" # Disable automatic resource provider registrations
   subscription_id                 = "enter subscription id here"
 }
-

@@ -1,65 +1,77 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-      "config:best-practices"
-    ],  
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "major": {
+    "dependencyDashboardApproval": true,
+    "addLabels": [
+      "major-upgrade"
+    ]
+  },
+  "osvVulnerabilityAlerts": false,
+  "vulnerabilityAlerts": {
+    "enabled": true,
     "labels": [
-      "dependencies"
+      "security"
     ],
-    "major": {
+    "groupName": "{{{vulnerabilitySeverity}}} vulnerable dependencies"
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest",
+        "lockFileMaintenance",
+        "rollback",
+        "bump"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "dependencyDashboardApproval": true,
+      "matchPackageNames": [
+        "*"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "matchCurrentVersion": "/^[~^]?0/",
       "dependencyDashboardApproval": true,
       "addLabels": [
         "major-upgrade"
       ]
     },
-    "transitiveRemediation" : true,
-    "osvVulnerabilityAlerts": false,
-    "vulnerabilityAlerts": {
-      "enabled": true,
-      "labels": [
-          "security"
+    {
+      "matchUpdateTypes": [
+        "major"
       ],
-      "groupName": "{{{vulnerabilitySeverity}}} vulnerable dependencies"
+      "matchDatasources": [
+        "npm",
+        "nuget",
+        "terraform-module",
+        "terraform-provider"
+      ],
+      "dependencyDashboardApproval": true,
+      "addLabels": [
+        "major-upgrade"
+      ]
     },
-    "packageRules": [    
-      {
-          "matchPackagePatterns": ["*"],
-          "matchUpdateTypes": [
-            "minor",
-            "patch",
-            "pin",
-            "digest",
-            "lockFileMaintenance",
-            "rollback",
-            "bump"
-          ],
-          "groupName": "all non-major dependencies",
-          "groupSlug": "all-minor-patch",
-          "dependencyDashboardApproval": true
-      },
-      {
-        "matchUpdateTypes": [
-            "minor"
-        ],
-        "matchCurrentVersion": "/^[~^]?0/",
-        "dependencyDashboardApproval": true,
-        "addLabels": [
-            "major-upgrade"
-        ]
-      },
-      {
-        "matchUpdateTypes": [
-            "major"
-        ],        
-        "matchDatasources": ["npm", "nuget", "terraform-module", "terraform-provider"],
-        "dependencyDashboardApproval": true,
-        "addLabels": [
-            "major-upgrade"
-        ]
-      },
-      {
-        "matchDatasources": ["npm", "nuget", "terraform-module", "terraform-provider", "docker"],
-        "minimumReleaseAge": "14 days"
-      }
-    ],
-  }
+    {
+      "matchDatasources": [
+        "npm",
+        "nuget",
+        "terraform-module",
+        "terraform-provider",
+        "docker"
+      ],
+      "minimumReleaseAge": "14 days"
+    }
+  ]
+}

@@ -1,8 +1,80 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices"
-  ],
-  "description": "Schedule at 22:00 on Sunday night",
-  "schedule": ["* * * * *"]
-}
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+      "config:best-practices"
+    ],  
+    "labels": [
+      "dependencies"
+    ],
+    "major": {
+      "dependencyDashboardApproval": true,
+      "addLabels": [
+        "major-upgrade"
+      ]
+    },
+    "transitiveRemediation" : true,
+    "osvVulnerabilityAlerts": false,
+    "vulnerabilityAlerts": {
+      "enabled": true,
+      "labels": [
+          "security"
+      ],
+      "groupName": "{{{vulnerabilitySeverity}}} vulnerable dependencies"
+    },
+    "packageRules": [    
+      {
+          "matchPackagePatterns": ["*"],
+          "matchUpdateTypes": [
+            "minor",
+            "patch",
+            "pin",
+            "digest",
+            "lockFileMaintenance",
+            "rollback",
+            "bump"
+          ],
+          "groupName": "all non-major dependencies",
+          "groupSlug": "all-minor-patch",
+          "dependencyDashboardApproval": true
+      },
+      {
+        "matchUpdateTypes": [
+            "minor"
+        ],
+        "matchCurrentVersion": "/^[~^]?0/",
+        "dependencyDashboardApproval": true,
+        "addLabels": [
+            "major-upgrade"
+        ]
+      },
+      {
+        "matchUpdateTypes": [
+            "major"
+        ],        
+        "matchDatasources": ["npm", "nuget", "terraform-module", "terraform-provider"],
+        "dependencyDashboardApproval": true,
+        "addLabels": [
+            "major-upgrade"
+        ]
+      },
+      {
+        "matchDatasources": ["npm", "nuget", "terraform-module", "terraform-provider", "docker"],
+        "minimumReleaseAge": "14 days"
+      }
+    ],
+    "hostRules": [
+      {
+        "matchHost": "racwa.pkgs.visualstudio.com",
+        "token": "{{ secrets.ADO_PACKAGES_RENOVATE_READ_ACCESS }}"
+      },
+      {
+        "matchHost": "pkgs.dev.azure.com",
+        "token": "{{ secrets.ADO_PACKAGES_RENOVATE_READ_ACCESS }}"
+      }
+    ],
+    "nuget": {
+      "registryUrls": [
+        "https://api.nuget.org/v3/index.json"
+      ]
+    }
+  }

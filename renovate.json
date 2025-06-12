@@ -62,19 +62,5 @@
         "minimumReleaseAge": "14 days"
       }
     ],
-    "hostRules": [
-      {
-        "matchHost": "racwa.pkgs.visualstudio.com",
-        "token": "{{ secrets.ADO_PACKAGES_RENOVATE_READ_ACCESS }}"
-      },
-      {
-        "matchHost": "pkgs.dev.azure.com",
-        "token": "{{ secrets.ADO_PACKAGES_RENOVATE_READ_ACCESS }}"
-      }
-    ],
-    "nuget": {
-      "registryUrls": [
-        "https://api.nuget.org/v3/index.json"
-      ]
     }
   }
